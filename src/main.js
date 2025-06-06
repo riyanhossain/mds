@@ -36,3 +36,4 @@ new Swiper('.swiper-2', {
     disableOnInteraction: false,
   },
 })
+

@@ -110,9 +110,8 @@
           ]
         }" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 lg:gap-6 mt-9 md:mt-14">
         <template x-for="(card, index) in cards" :key="index">
-          <div
-            class="rounded-2xl overflow-hidden bg-placeholder grid grid-cols-1 sm:grid-cols-5 items-center gap-6 md:gap-7 group">
-            <div class="p-7 md:p-9 sm:col-span-3">
+          <div x-data="" class="rounded-2xl overflow-hidden bg-placeholder grid grid-cols-1 sm:grid-cols-5 gap-6 md:gap-7 group">
+            <div class="p-7 md:p-9 sm:col-span-3 max-h-max card-content">
               <h4 class="text-button-m md:text-button text-primary" x-text="card.title">
               </h4>
               <p class="text-middle-m md:text-middle mt-2.5" x-text="card.description">
@@ -122,9 +121,9 @@
               <div class="swiper swiper-2 h-full">
                 <div class="swiper-wrapper h-full">
                   <template x-for="(image,index1) in card.images" :key="index1">
-                    <div class="swiper-slide overflow-hidden h-auto">
+                    <div class="swiper-slide overflow-hidden">
                       <img :src="image" alt="slide image"
-                        class="size-full max-h-[258px] md:max-h-[200px] object-cover group-hover:scale-110 transition-transform duration-300" />
+                        class="size-full h-full w-full object-cover group-hover:scale-110 transition-transform duration-300" />
                     </div>
                   </template>
                 </div>
