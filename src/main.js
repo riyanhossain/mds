@@ -5,8 +5,65 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css'
+import siteData from '../public/data.json'
 
 window.Alpine = Alpine
+
+// Add Alpine.js data models
+document.addEventListener('alpine:init', () => {
+  // Header nav model
+  Alpine.data('headerNav', () => ({
+    scrolled: false,
+    navItems: siteData.navigation.items,
+    init() {
+      window.addEventListener('scroll', () => {
+        this.scrolled = window.pageYOffset > 20
+      })
+    },
+  }))
+
+  // Services card model
+  Alpine.data('serviceCards', () => ({
+    cards: siteData.services.cards,
+  }))
+
+  // Card content model
+  Alpine.data('cardContent', () => ({
+    initCardContent() {
+      this.$nextTick(() => {
+        let maxHeight = 0
+        const cardContents = document.querySelectorAll('.card-content')
+        cardContents.forEach((content) => {
+          const height = content.offsetHeight
+          if (height > maxHeight) maxHeight = height
+        })
+        cardContents.forEach((content) => {
+          content.style.height = `${maxHeight}px`
+        })
+        const swiperSlides = document.querySelectorAll(
+          '.swiper-2 .swiper-slide img'
+        )
+        swiperSlides.forEach((slide) => {
+          slide.style.height = `${maxHeight}px`
+        })
+      })
+    },
+  }))
+
+  // Footer model
+  Alpine.data('footerNav', () => ({
+    navItems: siteData.navigation.items,
+    copywriteText: siteData.footer.copywrite.replace(
+      '{year}',
+      new Date().getFullYear()
+    ),
+  }))
+
+  // Slider images
+  Alpine.data('sliderImages', () => ({
+    sliderImages: siteData.startSlider.images,
+  }))
+})
 
 Alpine.start()
 

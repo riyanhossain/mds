@@ -5,22 +5,19 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="x-icon" href="/images/logo.png" />
+  <link rel="icon" href="/images/logo.png" />
   <title>MDS</title>
 </head>
 
 <body>
-  <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300" x-data="{    scrolled: false }"
-    x-init="window.addEventListener('scroll', () => { scrolled = window.pageYOffset > 20 })"
+  <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300" x-data="headerNav()"
     :class="scrolled ? 'bg-background shadow-md py-2' : 'py-4'">
     <nav class="flex items-center justify-between gap-4 main-container transition-all duration-300">
       <a href="/">
         <img src="/images/logo.png" alt="MDS Logo" class="w-[74px] h-auto object-contain transition-all duration-300"
           :class="scrolled ? 'w-[60px]' : 'w-[74px]'" />
       </a>
-      <ul
-        x-data="{navItems: [{name: 'start', href: '#start'}, {name: 'service', href: '#service'}, {name: 'kontakt', href: '#kontakt'}]}"
-        class="flex items-center gap-5 md:gap-9">
+      <ul class="flex items-center gap-5 md:gap-9">
         <template x-for="item in navItems" :key="item.name">
           <li>
             <a :href="item.href" x-text="item.name"
@@ -50,16 +47,7 @@
       <div class="bg-dark/40 absolute inset-0"></div>
     </section>
     <section id="start" class="pt-[70px] md:pt-[120px] max-w-[1440px] mx-auto">
-      <div id="swiper-1" class="swiper  !pl-2 !pr-20" x-data="{
-          sliderImages: [
-            { src: '/images/1.jpg', alt: '1' },
-            { src: '/images/2.jpg', alt: '2' },
-            { src: '/images/3.jpg', alt: '3' },
-            { src: '/images/4.jpg', alt: '4' },
-            { src: '/images/5.jpg', alt: '5' },
-            { src: '/images/6.jpg', alt: '6' }
-          ]
-        }">
+      <div id="swiper-1" class="swiper !pl-2 !pr-20" x-data="sliderImages()">
         <div class="swiper-wrapper">
           <template x-for="(image,index) in sliderImages" :key="index">
             <div class="swiper-slide max-w-max">
@@ -85,55 +73,14 @@
         <div class="size-3 rounded-full bg-white absolute inset-x-0 mx-auto"></div>
       </div>
     </section>
-    <section id="service" class="py-[70px] md:py-[120px] main-container">
+    <section id="service" class="pt-[70px] md:pt-[120px] main-container">
       <h1 class="text-h1-m lg:text-h1 max-w-[818px] mx-auto text-center">
         <span class="text-primary">Alles ist sauber</span>
         , funktional und gut geölt
       </h1>
-      <div x-data="{
-          cards: [
-            {
-              title: 'Reinigungen',
-              description: 'Treppenhäuser, Fenster und Photo-Voltaik-Anlagen — Lassen Sie Ihre Immobilie in neuem Licht erstrahlen.',
-              images: ['/images/1.jpg', '/images/2.jpg', '/images/3.jpg', '/images/4.jpg', '/images/5.jpg', '/images/6.jpg']
-            },
-            {
-              title: 'Instandhaltung und Reparaturen',
-              description: 'Unkomplizierte Reparatur und laufende Pflege für Langlebigkeit und Funktionalität.',
-              images: ['/images/3.jpg', '/images/1.jpg', '/images/5.jpg', '/images/2.jpg', '/images/6.jpg', '/images/4.jpg']
-            },
-            {
-              title: 'Carports, Wintergarten und Möbel',
-              description: 'Manchmal sind es kreative Details, die Ihre Immobilie erst abrunden. Lassen Sie Ihren Ideen freien Lauf.',
-              images: ['/images/5.jpg', '/images/4.jpg', '/images/1.jpg', '/images/6.jpg', '/images/2.jpg', '/images/3.jpg']
-            },
-            {
-              title: 'Sonstiger Betrieb Ihrer Immobilie',
-              description: 'Vom Rolldienst über Winterdienst bis zum Wechsel von Leuchtmitteln unterstützen wir Sie beim reibungslosen Betrieb Ihrer Immobilie',
-              images: ['/images/6.jpg', '/images/3.jpg', '/images/2.jpg', '/images/5.jpg', '/images/1.jpg', '/images/4.jpg']
-            }
-          ]
-        }" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 lg:gap-6 mt-9 md:mt-14">
+      <div x-data="serviceCards()" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 lg:gap-6 mt-9 md:mt-14">
         <template x-for="(card, index) in cards" :key="index">
-          <div x-data="{
-              initCardContent() {
-                this.$nextTick(() => {
-                let maxHeight = 0;
-                const cardContents = document.querySelectorAll('.card-content') ;
-                cardContents.forEach(content => {
-                  const height = content.offsetHeight;
-                  if (height > maxHeight) maxHeight = height;
-                });
-                cardContents.forEach(content => {
-                  content.style.height = `${maxHeight}px`;
-                });
-                const swiperSlides = document.querySelectorAll('.swiper-2 .swiper-slide img');
-                swiperSlides.forEach(slide => {
-                  slide.style.height = `${maxHeight}px`;
-                });
-                });
-              }
-              }" x-init="initCardContent()"
+          <div x-data="cardContent()" x-init="initCardContent()"
             class="rounded-2xl overflow-hidden bg-placeholder grid grid-cols-1 sm:grid-cols-5 gap-6 md:gap-7 group">
             <div class="p-7 md:p-9 sm:col-span-3 max-h-max card-content">
               <h4 class="text-button-m md:text-button text-primary" x-text="card.title">
@@ -161,7 +108,7 @@
         </template>
       </div>
     </section>
-    <section id="kontakt" class="pb-[70px] md:pb-[120px] main-container">
+    <section id="kontakt" class="py-[70px] md:py-[120px] main-container">
       <form
         class="max-w-[818px] mx-auto rounded-[20px] overflow-hidden bg-placeholder py-[60px] px-6 md:px-16 lg:px-20">
         <div
@@ -189,8 +136,7 @@
       <a href="/">
         <img src="/images/logo.png" alt="MDS Logo" class="w-[74px] h-auto object-contain" />
       </a>
-      <ul x-data="{navItems: [{name: 'start', href: '#'}, {name: 'service', href: '#'}, {name: 'kontakt', href: '#'}]}"
-        class="flex items-center gap-5 md:gap-9">
+      <ul x-data="footerNav()" class="flex items-center gap-5 md:gap-9">
         <template x-for="item in navItems" :key="item.name">
           <li>
             <a :href="item.href" x-text="item.name"
@@ -198,8 +144,7 @@
           </li>
         </template>
       </ul>
-      <p class="text-middle-m md:text-middle text-right"
-        x-data="{copywriteText:`© ${new Date().getFullYear()} Alle Rechte vorbehalten.`}" x-text="copywriteText">
+      <p class="text-middle-m md:text-middle text-right" x-data="footerNav()" x-text="copywriteText">
       </p>
     </div>
   </footer>
