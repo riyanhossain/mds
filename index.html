@@ -9,10 +9,13 @@
 </head>
 
 <body>
-  <header class="fixed inset-x-0 top-0 z-50">
-    <nav class="flex items-center justify-between gap-4 main-container py-4">
+  <header class="fixed inset-x-0 top-0 z-50 transition-all duration-300" x-data="{    scrolled: false }"
+    x-init="window.addEventListener('scroll', () => { scrolled = window.pageYOffset > 20 })"
+    :class="scrolled ? 'bg-background shadow-md py-2' : 'py-4'">
+    <nav class="flex items-center justify-between gap-4 main-container transition-all duration-300">
       <a href="#">
-        <img src="/images/logo.png" alt="MDS Logo" class="w-[74px] h-auto object-contain" />
+        <img src="/images/logo.png" alt="MDS Logo" class="w-[74px] h-auto object-contain transition-all duration-300"
+          :class="scrolled ? 'w-[60px]' : 'w-[74px]'" />
       </a>
       <ul x-data="{navItems: [{name: 'start', href: '#'}, {name: 'service', href: '#'}, {name: 'kontakt', href: '#'}]}"
         class="flex items-center gap-5 md:gap-9">
