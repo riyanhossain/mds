@@ -1,1 +1,68 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --default-font-family: 'Poppins', sans-serif;
+  --color-background: #a0a4ad;
+  --color-white: #fdfdfd;
+  --color-primary: #a3e96c;
+  --color-placeholder: #7f838c;
+  --color-dark: #272727;
+
+  --text-nav: 20px;
+  --text-nav-m: 18px;
+  --text-h1: 55px;
+  --text-h1-m: 55px;
+  --text-h2: 45px;
+  --text-h2-m: 37px;
+  --text-big: 18px;
+  --text-big-m: 16px;
+  --text-middle: 14px;
+  --text-middle-m: 12px;
+  --text-button: 18px;
+  --text-button-m: 16px;
+
+  --text-nav--font-weight: 500;
+  --text-nav-m--font-weight: 500;
+  --text-h1--font-weight: 800;
+  --text-h1-m--font-weight: 800;
+  --text-big--font-weight: 400;
+  --text-big-m--font-weight: 400;
+  --text-middle--font-weight: 400;
+  --text-middle-m--font-weight: 400;
+  --text-button--font-weight: 600;
+  --text-button-m--font-weight: 600;
+  --text-h2--font-weight: 800;
+  --text-h2-m--font-weight: 800;
+
+  --text-nav--line-height: 167%;
+  --text-nav-m--line-height: 167%;
+  --text-h1--line-height: 130%;
+  --text-h1-m--line-height: 130%;
+  --text-big--line-height: 167%;
+  --text-big-m--line-height: 161%;
+  --text-middle--line-height: 167%;
+  --text-middle-m--line-height: 151%;
+  --text-button--line-height: 152%;
+  --text-button-m--line-height: 152%;
+  --text-h2--line-height: 130%;
+  --text-h2-m--line-height: 124%;
+}
+
+@layer utilities {
+  .main-container {
+    @apply mx-auto max-w-[1440px] px-6 xl:px-[100px] w-full;
+  }
+  .primary-button {
+    @apply flex items-center gap-[10px] py-3 px-[30px] rounded-md bg-primary text-center border border-primary hover:bg-transparent hover:text-primary text-dark duration-300 transition-colors cursor-pointer;
+  }
+  .input-field {
+    @apply px-5 py-3 rounded-sm bg-white placeholder-placeholder text-dark text-middle-m md:text-middle outline-none border border-transparent focus:border-primary transition-colors duration-300;
+  }
+}
+
+@layer base {
+  body {
+    @apply antialiased scroll-smooth overflow-x-hidden text-white bg-background;
+  }
+}
