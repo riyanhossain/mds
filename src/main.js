@@ -5,6 +5,7 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css'
+import siteData from '../public/data.json'
 
 window.Alpine = Alpine
 
@@ -13,11 +14,7 @@ document.addEventListener('alpine:init', () => {
   // Header nav model
   Alpine.data('headerNav', () => ({
     scrolled: false,
-    navItems: [
-      { name: 'start', href: '#start' },
-      { name: 'service', href: '#service' },
-      { name: 'kontakt', href: '#kontakt' },
-    ],
+    navItems: siteData.navigation.items,
     init() {
       window.addEventListener('scroll', () => {
         this.scrolled = window.pageYOffset > 20
@@ -27,60 +24,7 @@ document.addEventListener('alpine:init', () => {
 
   // Services card model
   Alpine.data('serviceCards', () => ({
-    cards: [
-      {
-        title: 'Reinigungen',
-        description:
-          'Treppenhäuser, Fenster und Photo-Voltaik-Anlagen — Lassen Sie Ihre Immobilie in neuem Licht erstrahlen.',
-        images: [
-          '/images/1.jpg',
-          '/images/2.jpg',
-          '/images/3.jpg',
-          '/images/4.jpg',
-          '/images/5.jpg',
-          '/images/6.jpg',
-        ],
-      },
-      {
-        title: 'Instandhaltung und Reparaturen',
-        description:
-          'Unkomplizierte Reparatur und laufende Pflege für Langlebigkeit und Funktionalität.',
-        images: [
-          '/images/3.jpg',
-          '/images/1.jpg',
-          '/images/5.jpg',
-          '/images/2.jpg',
-          '/images/6.jpg',
-          '/images/4.jpg',
-        ],
-      },
-      {
-        title: 'Carports, Wintergarten und Möbel',
-        description:
-          'Manchmal sind es kreative Details, die Ihre Immobilie erst abrunden. Lassen Sie Ihren Ideen freien Lauf.',
-        images: [
-          '/images/5.jpg',
-          '/images/4.jpg',
-          '/images/1.jpg',
-          '/images/6.jpg',
-          '/images/2.jpg',
-          '/images/3.jpg',
-        ],
-      },
-      {
-        title: 'Sonstiger Betrieb Ihrer Immobilie',
-        description:
-          'Vom Rolldienst über Winterdienst bis zum Wechsel von Leuchtmitteln unterstützen wir Sie beim reibungslosen Betrieb Ihrer Immobilie',
-        images: [
-          '/images/6.jpg',
-          '/images/3.jpg',
-          '/images/2.jpg',
-          '/images/5.jpg',
-          '/images/1.jpg',
-          '/images/4.jpg',
-        ],
-      },
-    ],
+    cards: siteData.services.cards,
   }))
 
   // Card content model
@@ -108,24 +52,16 @@ document.addEventListener('alpine:init', () => {
 
   // Footer model
   Alpine.data('footerNav', () => ({
-    navItems: [
-      { name: 'start', href: '#start' },
-      { name: 'service', href: '#service' },
-      { name: 'kontakt', href: '#kontakt' },
-    ],
-    copywriteText: `© ${new Date().getFullYear()} Alle Rechte vorbehalten.`,
+    navItems: siteData.navigation.items,
+    copywriteText: siteData.footer.copywrite.replace(
+      '{year}',
+      new Date().getFullYear()
+    ),
   }))
 
   // Slider images
   Alpine.data('sliderImages', () => ({
-    sliderImages: [
-      { src: '/images/1.jpg', alt: '1' },
-      { src: '/images/2.jpg', alt: '2' },
-      { src: '/images/3.jpg', alt: '3' },
-      { src: '/images/4.jpg', alt: '4' },
-      { src: '/images/5.jpg', alt: '5' },
-      { src: '/images/6.jpg', alt: '6' },
-    ],
+    sliderImages: siteData.startSlider.images,
   }))
 })
 
