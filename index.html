@@ -13,11 +13,12 @@
     x-init="window.addEventListener('scroll', () => { scrolled = window.pageYOffset > 20 })"
     :class="scrolled ? 'bg-background shadow-md py-2' : 'py-4'">
     <nav class="flex items-center justify-between gap-4 main-container transition-all duration-300">
-      <a href="#">
+      <a href="/">
         <img src="/images/logo.png" alt="MDS Logo" class="w-[74px] h-auto object-contain transition-all duration-300"
           :class="scrolled ? 'w-[60px]' : 'w-[74px]'" />
       </a>
-      <ul x-data="{navItems: [{name: 'start', href: '#'}, {name: 'service', href: '#'}, {name: 'kontakt', href: '#'}]}"
+      <ul
+        x-data="{navItems: [{name: 'start', href: '#start'}, {name: 'service', href: '#service'}, {name: 'kontakt', href: '#kontakt'}]}"
         class="flex items-center gap-5 md:gap-9">
         <template x-for="item in navItems" :key="item.name">
           <li>
@@ -47,7 +48,7 @@
       </div>
       <div class="bg-dark/40 absolute inset-0"></div>
     </section>
-    <section class="pt-[70px] md:pt-[120px] max-w-[1440px] mx-auto">
+    <section id="start" class="pt-[70px] md:pt-[120px] max-w-[1440px] mx-auto">
       <div id="swiper-1" class="swiper  !pl-2 !pr-20" x-data="{
           sliderImages: [
             { src: '/images/1.jpg', alt: '1' },
@@ -83,7 +84,7 @@
         <div class="size-3 rounded-full bg-white absolute inset-x-0 mx-auto"></div>
       </div>
     </section>
-    <section class="py-[70px] md:py-[120px] main-container">
+    <section id="service" class="py-[70px] md:py-[120px] main-container">
       <h1 class="text-h1-m lg:text-h1 max-w-[818px] mx-auto text-center">
         <span class="text-primary">Alles ist sauber</span>
         , funktional und gut geölt
@@ -159,7 +160,7 @@
         </template>
       </div>
     </section>
-    <section class="pb-[70px] md:pb-[120px] main-container">
+    <section id="kontakt" class="pb-[70px] md:pb-[120px] main-container">
       <form
         class="max-w-[818px] mx-auto rounded-[20px] overflow-hidden bg-placeholder py-[60px] px-6 md:px-16 lg:px-20">
         <div
@@ -184,7 +185,7 @@
   <footer class="bg-[#545861] py-[50px] ">
     <div
       class="main-container flex justify-center items-center md:justify-between gap-10 flex-col md:flex-row *:odd:lg:flex-1">
-      <a href="#">
+      <a href="/">
         <img src="/images/logo.png" alt="MDS Logo" class="w-[74px] h-auto object-contain" />
       </a>
       <ul x-data="{navItems: [{name: 'start', href: '#'}, {name: 'service', href: '#'}, {name: 'kontakt', href: '#'}]}"
