@@ -20,20 +20,17 @@ new Swiper('#swiper-1', {
   },
 })
 new Swiper('.swiper-2', {
-  modules: [Navigation, Pagination, Autoplay],
+  modules: [Pagination, Autoplay],
   slidesPerView: 1,
-  speed: 1000,
   pagination: {
     el: '.swiper-2-pagination',
     clickable: true,
-  },
-  navigation: {
-    nextEl: '.swiper-2-next',
-    prevEl: '.swiper-2-prev',
+    bulletActiveClass: '!bg-white',
+    bulletClass: 'size-2 rounded-full bg-white/50 cursor-pointer',
   },
   autoplay: {
     delay: 3000,
     disableOnInteraction: false,
   },
+  speed: 1000,
 })
-

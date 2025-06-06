@@ -110,7 +110,26 @@
           ]
         }" class="grid grid-cols-1 md:grid-cols-2 gap-2.5 lg:gap-6 mt-9 md:mt-14">
         <template x-for="(card, index) in cards" :key="index">
-          <div x-data="" class="rounded-2xl overflow-hidden bg-placeholder grid grid-cols-1 sm:grid-cols-5 gap-6 md:gap-7 group">
+          <div x-data="{
+              initCardContent() {
+                this.$nextTick(() => {
+                let maxHeight = 0;
+                const cardContents = document.querySelectorAll('.card-content') ;
+                cardContents.forEach(content => {
+                  const height = content.offsetHeight;
+                  if (height > maxHeight) maxHeight = height;
+                });
+                cardContents.forEach(content => {
+                  content.style.height = `${maxHeight}px`;
+                });
+                const swiperSlides = document.querySelectorAll('.swiper-2 .swiper-slide img');
+                swiperSlides.forEach(slide => {
+                  slide.style.height = `${maxHeight}px`;
+                });
+                });
+              }
+              }" x-init="initCardContent()"
+            class="rounded-2xl overflow-hidden bg-placeholder grid grid-cols-1 sm:grid-cols-5 gap-6 md:gap-7 group">
             <div class="p-7 md:p-9 sm:col-span-3 max-h-max card-content">
               <h4 class="text-button-m md:text-button text-primary" x-text="card.title">
               </h4>
@@ -127,11 +146,10 @@
                     </div>
                   </template>
                 </div>
-              </div>
-              <div class="swiper-2-paginations absolute inset-x-0 bottom-3 flex items-center justify-center gap-1">
-                <div class="size-2 rounded-full bg-white/50"></div>
-                <div class="size-2 rounded-full bg-white"></div>
-                <div class="size-2 rounded-full bg-white/50"></div>
+
+                <div
+                  class="swiper-2-pagination absolute inset-x-0 bottom-3 flex items-center justify-center gap-1 z-20">
+                </div>
               </div>
             </div>
           </div>
