@@ -1,21 +1,16 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-
-const images = [
-  { src: "/images/1.jpg", alt: "1" },
-  { src: "/images/2.jpg", alt: "2" },
-  { src: "/images/3.jpg", alt: "3" },
-  { src: "/images/4.jpg", alt: "4" },
-  { src: "/images/5.jpg", alt: "5" },
-  { src: "/images/6.jpg", alt: "6" },
-];
-
-const ImageGallarySection = () => {
+import type { ImageGallerySection } from "sanity.types";
+import { urlFor } from "sanity.config";
+type Props = {
+  imageGallerySection: ImageGallerySection
+}
+export default function ImageGallerySection({ imageGallerySection }: Props ) {
   return (
-    <section id="start" className="bg-background">
+    <section id={imageGallerySection.sectionId} className="bg-background">
       <div className="pt-[70px] md:pt-[120px] max-w-[1440px] mx-auto">
         <Swiper
           modules={[Navigation]}
@@ -29,12 +24,12 @@ const ImageGallarySection = () => {
           }}
           className="!pl-2 !pr-20"
         >
-          {images.map((image, index) => (
+          {imageGallerySection.images?.map((image, index) => (
             <SwiperSlide key={index} className="max-w-max">
               <div className="h-[220px] w-auto max-w-max rounded-md overflow-hidden group">
                 <img
-                  src={image.src}
-                  alt={image.alt}
+                  src={urlFor(image).url()}
+                  alt={image._type + index}
                   className="size-full object-cover group-hover:scale-110 transition-transform duration-300"
                   height={220}
                   width={300}
@@ -65,5 +60,3 @@ const ImageGallarySection = () => {
     </section>
   );
 };
-
-export default ImageGallarySection;

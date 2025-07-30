@@ -1,5 +1,11 @@
 ---
 import { Image } from "astro:assets";
+import type { HeroSection } from "sanity.types";
+import { urlFor } from "sanity.config";
+type Props = {
+  heroSection: HeroSection;
+};
+let { heroSection }: Props = Astro.props;
 ---
 
 <section
@@ -8,20 +14,22 @@ import { Image } from "astro:assets";
   <div class="main-container relative z-20">
     <div class="max-w-[818px] mx-auto text-center">
       <h1 class="text-h1-m lg:text-h1">
-        <span class="text-primary">Ihre Immobilie</span>
-        sucht flexible Zuwendung?
+        <span class="text-primary"
+          >{heroSection.heading?.headlineColorText}</span
+        >
+        {heroSection.heading?.headlineNormalText}
       </h1>
       <p class="text-big-m lg:text-big text-white pt-5 pb-10 md:pb-12 md:pt-7">
-        Von der gründlichen Reinigung Ihrer PV-Anlage über zuverlässigen
-        Winterdienst bis hin zu individuellen Holzarbeiten machen wir möglich,
-        was Ihre Immobilie braucht!
+        {heroSection.subheading}
       </p>
     </div>
-    <a href="#" class="primary-button mx-auto max-w-max">Kontakt</a>
+    <a href={heroSection.button?.url} class="primary-button mx-auto max-w-max"
+      >{heroSection.button?.text}</a
+    >
   </div>
   <div class="bg-dark/40 absolute inset-0"></div>
   <Image
-    src="/images/bg-1.png"
+    src={urlFor(heroSection.backgroundImage).url()}
     alt="bg-1"
     height={1080}
     width={1920}

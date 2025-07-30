@@ -16,12 +16,10 @@ export async function getStaticPaths() {
   }));
 }
 const slug = Astro.params.slug ?? "/";
-console.log("Slug:", slug);
 const PAGE_QUERY = `*[
   _type == "page" && slug.current == '${slug}'
 ][0]`;
 const page: Page = await sanityClient.fetch(PAGE_QUERY);
-console.log("page:", page);
 ---
 
 <Layout
@@ -32,13 +30,15 @@ console.log("page:", page);
     page.sections?.map((section) => {
       switch (section._type) {
         case "heroSection":
-          return <Hero {...section} />;
+          return <Hero heroSection={section} />;
         case "imageGallerySection":
-          return <ImageGallerySection {...section} client:load />;
+          return (
+            <ImageGallerySection imageGallerySection={section} client:load />
+          );
         case "serviceSection":
-          return <ServiceSection {...section} client:load />;
+          return <ServiceSection serviceSection={section} client:load />;
         case "contactSection":
-          return <ContactSection {...section} client:load />;
+          return <ContactSection contactSection={section} client:load />;
         default:
           return null;
       }
