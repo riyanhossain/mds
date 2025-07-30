@@ -1,15 +1,37 @@
 import React, { useEffect, useState } from "react";
+import { sanityClient } from "sanity:client";
+const HEADER_QUERY = `*[_type == "page"][0].header{
+  logo {
+    asset->{
+      url,
+    }
+  },
+  navigation[] {
+    title,
+    url
+  },
+}`;
+type HeaderType = {
+  logo: {
+    asset: {
+      url: string;
+    };
+  };
+  navigation: Array<{
+    title: string;
+    url: string;
+  }>;
+  copyrightText: string;
+};
 
-const navItems = [
-  { name: "start", href: "#start" },
-  { name: "service", href: "#service" },
-  { name: "kontakt", href: "#kontakt" },
-];
+const header = await sanityClient.fetch<HeaderType>(HEADER_QUERY);
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-  const navRefs = navItems.map(() => React.createRef<HTMLAnchorElement>());
+  const navRefs = header.navigation.map(() =>
+    React.createRef<HTMLAnchorElement>()
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +58,7 @@ const Header = () => {
       <nav className="flex items-center justify-between gap-4 main-container transition-all duration-300">
         <a href="/">
           <img
-            src="/logo.png"
+            src={header.logo.asset.url}
             alt="MDS Logo"
             className={`w-[74px] h-auto object-contain transition-all duration-300 ${scrolled ? "w-[60px]" : "w-[74px]"}`}
             height={48}
@@ -44,14 +66,14 @@ const Header = () => {
           />
         </a>
         <ul className="flex items-center gap-5 md:gap-9">
-          {navItems.map((item, idx) => (
-            <li key={item.name}>
+          {header.navigation.map((item, idx) => (
+            <li key={item.title}>
               <a
-                href={item.href}
+                href={item.url}
                 ref={navRefs[idx]}
-                className={`text-nav md:text-nav hover:text-primary duration-300 hover:underline underline-offset-4 ${activeSection === item.href.substring(1) ? "text-primary underline" : ""}`}
+                className={`text-nav md:text-nav hover:text-primary duration-300 hover:underline underline-offset-4 ${activeSection === item.url.substring(1) ? "text-primary underline" : ""}`}
               >
-                {item.name}
+                {item.title}
               </a>
             </li>
           ))}
