@@ -1,0 +1,47 @@
+---
+import type { SanityDocument } from "@sanity/client";
+import { sanityClient } from "sanity:client";
+import type { Page } from "sanity.types";
+import Hero from "@/components/Hero.astro";
+import Layout from "@/layouts/Layout.astro";
+import ImageGallerySection from "@/components/ImageGallerySection";
+import ServiceSection from "@/components/ServiceSection";
+import ContactSection from "@/components/ContactSection";
+
+export async function getStaticPaths() {
+  const PAGES_QUERY = `*[_type == "page"]{ slug }`;
+  const pages = await sanityClient.fetch<SanityDocument[]>(PAGES_QUERY);
+  return pages.map((item) => ({
+    params: { slug: item.slug.current },
+  }));
+}
+const slug = Astro.params.slug ?? "/";
+console.log("Slug:", slug);
+const PAGE_QUERY = `*[
+  _type == "page" && slug.current == '${slug}'
+][0]`;
+const page: Page = await sanityClient.fetch(PAGE_QUERY);
+console.log("page:", page);
+---
+
+<Layout
+  title={page.pageName + " - " + page.metaTitle}
+  description={page.metaDescription}
+>
+  {
+    page.sections?.map((section) => {
+      switch (section._type) {
+        case "heroSection":
+          return <Hero {...section} />;
+        case "imageGallerySection":
+          return <ImageGallerySection {...section} client:load />;
+        case "serviceSection":
+          return <ServiceSection {...section} client:load />;
+        case "contactSection":
+          return <ContactSection {...section} client:load />;
+        default:
+          return null;
+      }
+    })
+  }
+</Layout>

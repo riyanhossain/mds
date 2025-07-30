@@ -23,7 +23,7 @@ export const page = defineType({
       title: "Slug",
       type: "slug",
       options: {
-        source: "metaTitle",
+        source: "pageName",
         maxLength: 96,
       },
       group: "meta",
