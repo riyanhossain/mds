@@ -1,4 +1,6 @@
 ---
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
 import "@/styles/style.css";
 let { title = "MDS" } = Astro.props;
 ---
@@ -13,8 +15,10 @@ let { title = "MDS" } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <main class="min-h-[500vh]">
+    <Header client:load />
+    <main>
       <slot />
     </main>
+    <Footer />
   </body>
 </html>

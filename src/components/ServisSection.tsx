@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
@@ -60,6 +60,37 @@ const cards = [
 ];
 
 const ServisSection = () => {
+  const [maxHeight, setMaxHeight] = React.useState(0);
+
+  useEffect(() => {
+    const updateHeights = () => {
+      let newMaxHeight = 0;
+      const cardContents = document.querySelectorAll(".card-content");
+      cardContents.forEach((content) => {
+        const height = (content as HTMLElement).offsetHeight;
+        if (height > newMaxHeight) newMaxHeight = height;
+      });
+      setMaxHeight(newMaxHeight);
+    };
+
+    updateHeights();
+    window.addEventListener("resize", updateHeights);
+    return () => window.removeEventListener("resize", updateHeights);
+  }, []);
+
+  useEffect(() => {
+    const cardContents = document.querySelectorAll(".card-content");
+    cardContents.forEach((content) => {
+      (content as HTMLElement).style.height = `${maxHeight}px`;
+    });
+    const swiperSlides = document.querySelectorAll(
+      ".swiper-2 .swiper-slide img"
+    );
+    swiperSlides.forEach((slide) => {
+      (slide as HTMLElement).style.height = `${maxHeight}px`;
+    });
+  }, [maxHeight]);
+
   return (
     <section id="service" className="bg-background">
       <div className="pt-[70px] md:pt-[120px] main-container">

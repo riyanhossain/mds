@@ -1,0 +1,38 @@
+---
+const items = [
+  { name: "start", href: "#start" },
+  { name: "service", href: "#service" },
+  { name: "kontakt", href: "#kontakt" },
+];
+---
+
+<footer class="bg-[#545861] py-[50px]">
+  <div
+    class="main-container flex justify-center items-center md:justify-between gap-10 flex-col md:flex-row *:odd:lg:flex-1"
+  >
+    <a href="/">
+      <img
+        src="/images/logo.png"
+        alt="MDS Logo"
+        class="w-[74px] h-auto object-contain"
+      />
+    </a>
+    <ul x-data="footerNav()" class="flex items-center gap-5 md:gap-9">
+     {
+        items.map((item)=>(
+             <li>
+                <a
+                :href="item.href"
+                class="text-nav md:text-nav hover:text-primary duration-300 hover:underline underline-offset-4"
+                >{item.name}</a>
+            </li>
+        ))
+     }
+    </ul>
+    <p
+      class="text-middle-m md:text-middle text-right"
+    >
+     © {new Date().getFullYear()} Alle Rechte vorbehalten.
+    </p>
+  </div>
+</footer>
