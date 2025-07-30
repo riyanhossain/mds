@@ -1,12 +1,20 @@
 ---
+import type { SanityDocument } from "@sanity/client";
+import { sanityClient } from "sanity:client";
 import Hero from "@/components/Hero.astro";
 import Layout from "@/layouts/Layout.astro";
 import ImageGallerySection from "@/components/ImageGallerySection";
 import ServiceSection from "@/components/ServiceSection";
 import ContactSection from "@/components/ContactSection";
+
+// const PAGE_QUERY = `*[
+//   _type == "page"
+// ]`;
+// const page = await sanityClient.fetch<SanityDocument[]>(PAGE_QUERY);
+// console.log("Page data:", page);
 ---
 
-<Layout>
+<Layout title="MDS - Home">
   <Hero />
   <ImageGallerySection client:load />
   <ServiceSection client:load />
