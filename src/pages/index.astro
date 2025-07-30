@@ -1,14 +1,14 @@
 ---
 import Hero from "@/components/Hero.astro";
 import Layout from "@/layouts/Layout.astro";
-import ImageGallarySection from "@/components/ImageGallarySection";
-import ServisSection from "@/components/ServisSection";
+import ImageGallerySection from "@/components/ImageGallerySection";
+import ServiceSection from "@/components/ServiceSection";
 import ContactSection from "@/components/ContactSection";
 ---
 
 <Layout>
   <Hero />
-  <ImageGallarySection client:load />
-  <ServisSection client:load />
+  <ImageGallerySection client:load />
+  <ServiceSection client:load />
   <ContactSection client:load />
 </Layout>
