@@ -91,16 +91,12 @@ export type HeroSection = {
   };
 };
 
-export type Page = {
+export type Settings = {
   _id: string;
-  _type: "page";
+  _type: "settings";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  pageName?: string;
-  slug: Slug;
-  metaTitle?: string;
-  metaDescription?: string;
   header?: {
     logo?: {
       asset?: {
@@ -120,15 +116,6 @@ export type Page = {
       _key: string;
     }>;
   };
-  sections?: Array<{
-    _key: string;
-  } & HeroSection | {
-    _key: string;
-  } & ImageGallerySection | {
-    _key: string;
-  } & ServiceSection | {
-    _key: string;
-  } & ContactSection>;
   footer?: {
     logo?: {
       asset?: {
@@ -149,6 +136,27 @@ export type Page = {
     }>;
     copyrightText?: string;
   };
+};
+
+export type Page = {
+  _id: string;
+  _type: "page";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  pageName?: string;
+  slug: Slug;
+  metaTitle?: string;
+  metaDescription?: string;
+  sections?: Array<{
+    _key: string;
+  } & ContactSection | {
+    _key: string;
+  } & ServiceSection | {
+    _key: string;
+  } & HeroSection | {
+    _key: string;
+  } & ImageGallerySection>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -269,5 +277,5 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = ServiceSection | ContactSection | ImageGallerySection | HeroSection | Page | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = ServiceSection | ContactSection | ImageGallerySection | HeroSection | Settings | Page | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
