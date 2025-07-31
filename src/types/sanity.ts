@@ -18,12 +18,12 @@ export type ServiceSection = {
   sectionId?: string;
   heading?: {
     headlineColorText?: string;
-    headlineNormalText?: string;
+    headlineNormalText: string;
   };
   cards?: Array<{
-    title?: string;
-    description?: string;
-    images?: Array<{
+    title: string;
+    description: string;
+    images: Array<{
       asset?: {
         _ref: string;
         _type: "reference";
@@ -43,14 +43,14 @@ export type ServiceSection = {
 export type ContactSection = {
   _type: "contactSection";
   sectionId?: string;
-  heading?: string;
-  address?: string;
+  heading: string;
+  address: string;
 };
 
 export type ImageGallerySection = {
   _type: "imageGallerySection";
   sectionId?: string;
-  images?: Array<{
+  images: Array<{
     asset?: {
       _ref: string;
       _type: "reference";
@@ -68,7 +68,7 @@ export type ImageGallerySection = {
 export type HeroSection = {
   _type: "heroSection";
   sectionId?: string;
-  backgroundImage?: {
+  backgroundImage: {
     asset?: {
       _ref: string;
       _type: "reference";
@@ -82,11 +82,11 @@ export type HeroSection = {
   };
   heading?: {
     headlineColorText?: string;
-    headlineNormalText?: string;
+    headlineNormalText: string;
   };
   subheading?: string;
   button?: {
-    text?: string;
+    text: string;
     url?: string;
   };
 };
@@ -98,7 +98,7 @@ export type Page = {
   _updatedAt: string;
   _rev: string;
   pageName?: string;
-  slug?: Slug;
+  slug: Slug;
   metaTitle?: string;
   metaDescription?: string;
   header?: {
@@ -258,7 +258,7 @@ export type Geopoint = {
 
 export type Slug = {
   _type: "slug";
-  current?: string;
+  current: string;
   source?: string;
 };
 

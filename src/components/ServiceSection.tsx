@@ -4,12 +4,11 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import type { ServiceSection } from "sanity.types";
+import type { ServiceSection } from "@/types/sanity";
 import { urlFor } from "sanity.config";
-type Props = {
-  serviceSection: ServiceSection;
-};
-export default function ServiceSection({ serviceSection }: Props) {
+type Props = ServiceSection;
+
+export default function ServiceSection({ sectionId, heading, cards }: Props) {
   const [maxHeight, setMaxHeight] = React.useState(0);
 
   useEffect(() => {
@@ -42,16 +41,14 @@ export default function ServiceSection({ serviceSection }: Props) {
   }, [maxHeight]);
 
   return (
-    <section id={serviceSection.sectionId} className="bg-background">
+    <section id={sectionId} className="bg-background">
       <div className="pt-[70px] md:pt-[120px] main-container">
         <h1 className="text-h1-m lg:text-h1 max-w-[818px] mx-auto text-center">
-          <span className="text-primary">
-            {serviceSection.heading?.headlineColorText}
-          </span>
-          {serviceSection.heading?.headlineNormalText}
+          <span className="text-primary">{heading?.headlineColorText}</span>
+          {heading?.headlineNormalText}
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 lg:gap-6 mt-9 md:mt-14">
-          {serviceSection.cards?.map((card, index) => (
+          {cards?.map((card, index) => (
             <div
               key={index}
               className="rounded-2xl overflow-hidden bg-placeholder grid grid-cols-1 sm:grid-cols-5 gap-6 md:gap-7 group"

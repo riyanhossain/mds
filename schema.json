@@ -36,7 +36,7 @@
                 "value": {
                   "type": "string"
                 },
-                "optional": true
+                "optional": false
               }
             }
           },
@@ -54,14 +54,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "description": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "images": {
                   "type": "objectAttribute",
@@ -144,7 +144,7 @@
                       }
                     }
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -190,14 +190,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "address": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -303,7 +303,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -395,7 +395,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "heading": {
           "type": "objectAttribute",
@@ -414,7 +414,7 @@
                 "value": {
                   "type": "string"
                 },
-                "optional": true
+                "optional": false
               }
             }
           },
@@ -437,7 +437,7 @@
                 "value": {
                   "type": "string"
                 },
-                "optional": true
+                "optional": false
               },
               "url": {
                 "type": "objectAttribute",
@@ -501,7 +501,7 @@
           "type": "inline",
           "name": "slug"
         },
-        "optional": true
+        "optional": false
       },
       "metaTitle": {
         "type": "objectAttribute",
@@ -1472,7 +1472,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "source": {
           "type": "objectAttribute",

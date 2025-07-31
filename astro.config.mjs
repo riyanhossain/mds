@@ -1,23 +1,27 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
-import sanity from '@sanity/astro';
-import react from '@astrojs/react';
-import { loadEnv } from "vite"
+import sanity from "@sanity/astro";
+import react from "@astrojs/react";
+import { loadEnv } from "vite";
 
-import cloudflare from '@astrojs/cloudflare';
+import cloudflare from "@astrojs/cloudflare";
 
 const env = loadEnv(`${process.env.NODE_ENV}`, process.cwd(), "");
 
 export default defineConfig({
-  integrations: [sanity({
-    projectId: env.PUBLIC_SANITY_PROJECT_ID,
-    dataset: env.PUBLIC_SANITY_DATASET,
-    useCdn: false,
-    studioBasePath: '/studio',
-  }), react()],
+  integrations: [
+    sanity({
+      projectId: env.PUBLIC_SANITY_PROJECT_ID,
+      dataset: env.PUBLIC_SANITY_DATASET,
+      useCdn: false,
+      studioBasePath: "/studio",
+    }),
+    react(),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
-  adapter: cloudflare()
+  output: "server",
+  adapter: cloudflare(),
 });

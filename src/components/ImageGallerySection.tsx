@@ -3,14 +3,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import type { ImageGallerySection } from "sanity.types";
+import type { ImageGallerySection } from "@/types/sanity";
 import { urlFor } from "sanity.config";
-type Props = {
-  imageGallerySection: ImageGallerySection
-}
-export default function ImageGallerySection({ imageGallerySection }: Props ) {
+type Props = ImageGallerySection;
+export default function ImageGallerySection({ sectionId, images }: Props) {
   return (
-    <section id={imageGallerySection.sectionId} className="bg-background">
+    <section id={sectionId} className="bg-background">
       <div className="pt-[70px] md:pt-[120px] max-w-[1440px] mx-auto">
         <Swiper
           modules={[Navigation]}
@@ -24,7 +22,7 @@ export default function ImageGallerySection({ imageGallerySection }: Props ) {
           }}
           className="!pl-2 !pr-20"
         >
-          {imageGallerySection.images?.map((image, index) => (
+          {images?.map((image, index) => (
             <SwiperSlide key={index} className="max-w-max">
               <div className="h-[220px] w-auto max-w-max rounded-md overflow-hidden group">
                 <img
@@ -59,4 +57,4 @@ export default function ImageGallerySection({ imageGallerySection }: Props ) {
       </div>
     </section>
   );
-};
+}

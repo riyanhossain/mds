@@ -1,12 +1,11 @@
 ---
 import type { SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
-import type { Page } from "sanity.types";
-import Hero from "@/components/Hero.astro";
+import type { Page } from "@/types/sanity";
 import Layout from "@/layouts/Layout.astro";
-import ImageGallerySection from "@/components/ImageGallerySection";
-import ServiceSection from "@/components/ServiceSection";
-import ContactSection from "@/components/ContactSection";
+import ComponetResolver from "@/components/ComponetResolver.astro";
+
+export const prerender = true;
 
 export async function getStaticPaths() {
   const PAGES_QUERY = `*[_type == "page"]{ slug }`;
@@ -26,22 +25,5 @@ const page: Page = await sanityClient.fetch(PAGE_QUERY);
   title={page.pageName + " - " + page.metaTitle}
   description={page.metaDescription}
 >
-  {
-    page.sections?.map((section) => {
-      switch (section._type) {
-        case "heroSection":
-          return <Hero heroSection={section} />;
-        case "imageGallerySection":
-          return (
-            <ImageGallerySection imageGallerySection={section} client:load />
-          );
-        case "serviceSection":
-          return <ServiceSection serviceSection={section} client:load />;
-        case "contactSection":
-          return <ContactSection contactSection={section} client:load />;
-        default:
-          return null;
-      }
-    })
-  }
+  <ComponetResolver sections={page.sections} />
 </Layout>
