@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import components from "./components";
 
 export const page = defineType({
   name: "page",
@@ -41,93 +42,15 @@ export const page = defineType({
       type: "text",
       group: "meta",
     }),
-    // Header
-    defineField({
-      name: "header",
-      title: "Header",
-      type: "object",
-      group: "header",
-      fields: [
-        defineField({
-          name: "logo",
-          title: "Logo",
-          type: "image",
-          options: {
-            hotspot: true,
-          },
-        }),
-        defineField({
-          name: "navigation",
-          title: "Navigation",
-          type: "array",
-          of: [
-            {
-              type: "object",
-              fields: [
-                { name: "title", type: "string" },
-                { name: "url", type: "string" },
-              ],
-            },
-          ],
-        }),
-      ],
-    }),
+
     // Sections
     defineField({
       name: "sections",
       title: "Sections",
       type: "array",
       group: "sections",
-      of: [
-        {
-          type: "heroSection",
-        },
-        {
-          type: "imageGallerySection",
-        },
-        {
-          type: "serviceSection",
-        },
-        {
-          type: "contactSection",
-        },
-      ],
+      of: [...components],
     }),
-    // Footer
-    defineField({
-      name: "footer",
-      title: "Footer",
-      type: "object",
-      group: "footer",
-      fields: [
-        defineField({
-          name: "logo",
-          title: "Logo",
-          type: "image",
-          options: {
-            hotspot: true,
-          },
-        }),
-        defineField({
-          name: "navigation",
-          title: "Navigation",
-          type: "array",
-          of: [
-            {
-              type: "object",
-              fields: [
-                { name: "title", type: "string" },
-                { name: "url", type: "string" },
-              ],
-            },
-          ],
-        }),
-        defineField({
-          name: "copyrightText",
-          title: "Copyright Text",
-          type: "string",
-        }),
-      ],
-    }),
+
   ],
 });
