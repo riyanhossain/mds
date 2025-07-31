@@ -24,7 +24,6 @@ const SETTINGS_QUERY = `*[_type == "settings"]{
   }
 }[0]`;
 const settings = await sanityClient.fetch<Settings>(SETTINGS_QUERY);
-console.log("Settings:", settings);
 ---
 
 <!doctype html>
@@ -38,7 +37,7 @@ console.log("Settings:", settings);
     <meta name="description" content={description} />
   </head>
   <body>
-    <Header header={settings.header} />
+    <Header header={settings.header} client:load />
     <main class="min-h-screen">
       <slot />
     </main>
