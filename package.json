@@ -10,8 +10,8 @@
     "generate:types": "npx sanity schema extract --enforce-required-fields && npx sanity typegen generate"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.0",
     "@astrojs/react": "^4.3.0",
+    "@astrojs/vercel": "^8.2.3",
     "@sanity/astro": "^3.2.10",
     "@sanity/client": "^7.8.1",
     "@sanity/dashboard": "^4.1.4",

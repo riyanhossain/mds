@@ -5,7 +5,7 @@ import sanity from "@sanity/astro";
 import react from "@astrojs/react";
 import { loadEnv } from "vite";
 
-import cloudflare from "@astrojs/cloudflare";
+import vercel from "@astrojs/vercel";
 
 const env = loadEnv(`${process.env.NODE_ENV}`, process.cwd(), "");
 
@@ -19,15 +19,25 @@ export default defineConfig({
     }),
     react(),
   ],
+
   vite: {
     plugins: [tailwindcss()],
   },
-  output: "server",
-  adapter: cloudflare(),
+
   env: {
     schema: {
-      PUBLIC_SANITY_PROJECT_ID: envField.string({ context: "client", access: "public", optional: true }),
-      PUBLIC_SANITY_DATASET: envField.string({ context: "client", access: "public", optional: true }),
-    }
-  }
+      PUBLIC_SANITY_PROJECT_ID: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+      }),
+      PUBLIC_SANITY_DATASET: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+      }),
+    },
+  },
+  output: "server",
+  adapter: vercel(),
 });
