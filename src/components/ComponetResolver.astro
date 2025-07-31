@@ -1,0 +1,31 @@
+---
+import Hero from "@/components/Hero.astro";
+import ImageGallerySection from "@/components/ImageGallerySection";
+import ServiceSection from "@/components/ServiceSection";
+import ContactSection from "@/components/ContactSection";
+import type { Page } from "@/types/sanity";
+
+type Props = Pick<Page, "sections">;
+
+let { sections } = Astro.props;
+---
+
+{
+  sections &&
+    sections.map((section) => {
+      if (section._type === "heroSection") {
+        return <Hero {...section} />;
+      }
+
+      if (section._type === "imageGallerySection") {
+        return <ImageGallerySection {...section} />;
+      }
+      if (section._type === "serviceSection") {
+        return <ServiceSection {...section} />;
+      }
+
+      if (section._type === "contactSection") {
+        return <ContactSection {...section} />;
+      }
+    })
+}

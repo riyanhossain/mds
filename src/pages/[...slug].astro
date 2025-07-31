@@ -1,0 +1,29 @@
+---
+import type { SanityDocument } from "@sanity/client";
+import { sanityClient } from "sanity:client";
+import type { Page } from "@/types/sanity";
+import Layout from "@/layouts/Layout.astro";
+import ComponetResolver from "@/components/ComponetResolver.astro";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const PAGES_QUERY = `*[_type == "page"]{ slug }`;
+  const pages = await sanityClient.fetch<SanityDocument[]>(PAGES_QUERY);
+  return pages.map((item) => ({
+    params: { slug: item.slug.current },
+  }));
+}
+const slug = Astro.params.slug ?? "/";
+const PAGE_QUERY = `*[
+  _type == "page" && slug.current == '${slug}'
+][0]`;
+const page: Page = await sanityClient.fetch(PAGE_QUERY);
+---
+
+<Layout
+  title={page.pageName + " - " + page.metaTitle}
+  description={page.metaDescription}
+>
+  <ComponetResolver sections={page.sections} />
+</Layout>

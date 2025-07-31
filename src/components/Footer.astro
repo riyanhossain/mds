@@ -1,0 +1,63 @@
+---
+import { sanityClient } from "sanity:client";
+import { Image } from "astro:assets";
+const FOOTER_QUERY = `*[_type == "page"][0].footer{
+  logo {
+    asset->{
+      url,
+    }
+  },
+  navigation[] {
+    title,
+    url
+  },
+  copyrightText
+}`;
+type FooterType = {
+  logo: {
+    asset: {
+      url: string;
+    };
+  };
+  navigation: Array<{
+    title: string;
+    url: string;
+  }>;
+  copyrightText: string;
+};
+
+const footer = await sanityClient.fetch<FooterType>(FOOTER_QUERY);
+---
+
+<footer class="bg-[#545861] py-[50px]">
+  <div
+    class="main-container flex justify-center items-center md:justify-between gap-10 flex-col md:flex-row *:odd:lg:flex-1"
+  >
+    <a href="/">
+      <Image
+        src={footer.logo.asset.url}
+        alt="MDS Logo"
+        class="w-[74px] h-auto object-contain"
+        height={48}
+        width={74}
+      />
+    </a>
+    <ul class="flex items-center gap-5 md:gap-9">
+      {
+        footer.navigation.map((item) => (
+          <li>
+            <a
+              href={item.url}
+              class="text-nav md:text-nav hover:text-primary duration-300 hover:underline underline-offset-4"
+            >
+              {item.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="text-middle-m md:text-middle text-right">
+      {footer.copyrightText}
+    </p>
+  </div>
+</footer>
