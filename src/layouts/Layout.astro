@@ -2,7 +2,28 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer.astro";
 import "@/styles/style.css";
+import { sanityClient } from "sanity:client";
+import type { Settings } from "@/types/sanity";
 let { title = "MDS", description = "MDS" } = Astro.props;
+
+const SETTINGS_QUERY = `*[_type == "settings"]{
+  header{
+    logo,
+    navigation[]{
+      title,
+      url
+    }
+  },
+  footer{
+    logo,
+    navigation[]{
+      title,
+      url
+    },
+    copyrightText
+  }
+}[0]`;
+const settings = await sanityClient.fetch<Settings>(SETTINGS_QUERY);
 ---
 
 <!doctype html>
@@ -16,10 +37,10 @@ let { title = "MDS", description = "MDS" } = Astro.props;
     <meta name="description" content={description} />
   </head>
   <body>
-    <Header client:load />
+    <Header header={settings.header} client:load />
     <main class="min-h-screen">
       <slot />
     </main>
-    <Footer />
+    <Footer footer={settings.footer} />
   </body>
 </html>

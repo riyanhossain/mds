@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { HeroSection } from "@/types/sanity";
-import { urlFor } from "sanity.config";
+import useSanityImage from "@/lib/image";
 type Props = HeroSection;
 
 let { heading, subheading, button, backgroundImage } = Astro.props;
@@ -26,10 +26,10 @@ let { heading, subheading, button, backgroundImage } = Astro.props;
   </div>
   <div class="bg-dark/40 absolute inset-0"></div>
   <Image
-    src={urlFor(backgroundImage).url()}
+    src={useSanityImage(backgroundImage).url()}
     alt="bg-1"
     height={1080}
     width={1920}
-    class="fixed inset-0 object-cover -z-10"
+    class="fixed inset-0 object-cover -z-10 size-full"
   />
 </section>

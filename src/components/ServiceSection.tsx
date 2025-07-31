@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import type { ServiceSection } from "@/types/sanity";
-import { urlFor } from "sanity.config";
+import useSanityImage from "@/lib/image";
 type Props = ServiceSection;
 
 export default function ServiceSection({ sectionId, heading, cards }: Props) {
@@ -73,7 +73,7 @@ export default function ServiceSection({ sectionId, heading, cards }: Props) {
                   {card.images?.map((image, idx) => (
                     <SwiperSlide key={idx} className="overflow-hidden h-full">
                       <img
-                        src={urlFor(image).url()}
+                        src={useSanityImage(image).url()}
                         alt="slide image"
                         className="size-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />

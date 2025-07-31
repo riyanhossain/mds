@@ -4,7 +4,7 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import type { ImageGallerySection } from "@/types/sanity";
-import { urlFor } from "sanity.config";
+import useSanityImage from "@/lib/image";
 type Props = ImageGallerySection;
 export default function ImageGallerySection({ sectionId, images }: Props) {
   return (
@@ -26,7 +26,7 @@ export default function ImageGallerySection({ sectionId, images }: Props) {
             <SwiperSlide key={index} className="max-w-max">
               <div className="h-[220px] w-auto max-w-max rounded-md overflow-hidden group">
                 <img
-                  src={urlFor(image).url()}
+                  src={useSanityImage(image).url()}
                   alt={image._type + index}
                   className="size-full object-cover group-hover:scale-110 transition-transform duration-300"
                   height={220}

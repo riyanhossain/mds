@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sanity from "@sanity/astro";
 import react from "@astrojs/react";
@@ -24,4 +24,10 @@ export default defineConfig({
   },
   output: "server",
   adapter: cloudflare(),
+  env: {
+    schema: {
+      PUBLIC_SANITY_PROJECT_ID: envField.string({ context: "client", access: "public", optional: true }),
+      PUBLIC_SANITY_DATASET: envField.string({ context: "client", access: "public", optional: true }),
+    }
+  }
 });

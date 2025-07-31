@@ -18,14 +18,14 @@ let { sections } = Astro.props;
       }
 
       if (section._type === "imageGallerySection") {
-        return <ImageGallerySection {...section} />;
+        return <ImageGallerySection client:load {...section} />;
       }
       if (section._type === "serviceSection") {
-        return <ServiceSection {...section} />;
+        return <ServiceSection client:load {...section} />;
       }
 
       if (section._type === "contactSection") {
-        return <ContactSection {...section} />;
+        return <ContactSection client:load {...section} />;
       }
     })
 }
