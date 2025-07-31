@@ -98,7 +98,7 @@ export type Settings = {
   _updatedAt: string;
   _rev: string;
   header?: {
-    logo?: {
+    logo: {
       asset?: {
         _ref: string;
         _type: "reference";
@@ -110,14 +110,14 @@ export type Settings = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    navigation?: Array<{
+    navigation: Array<{
       title?: string;
       url?: string;
       _key: string;
     }>;
   };
   footer?: {
-    logo?: {
+    logo: {
       asset?: {
         _ref: string;
         _type: "reference";
@@ -129,12 +129,12 @@ export type Settings = {
       crop?: SanityImageCrop;
       _type: "image";
     };
-    navigation?: Array<{
+    navigation: Array<{
       title?: string;
       url?: string;
       _key: string;
     }>;
-    copyrightText?: string;
+    copyrightText: string;
   };
 };
 

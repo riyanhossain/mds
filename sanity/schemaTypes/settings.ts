@@ -28,6 +28,7 @@ export default defineType({
           options: {
             hotspot: true,
           },
+          validation: (Rule) => Rule.required().error("Logo is required."),
         }),
         defineField({
           name: "navigation",
@@ -42,6 +43,10 @@ export default defineType({
               ],
             },
           ],
+          validation: (Rule) =>
+            Rule.required()
+              .min(1)
+              .error("At least one navigation item is required."),
         }),
       ],
     }),
@@ -59,6 +64,7 @@ export default defineType({
           options: {
             hotspot: true,
           },
+          validation: (Rule) => Rule.required().error("Logo is required."),
         }),
         defineField({
           name: "navigation",
@@ -73,11 +79,17 @@ export default defineType({
               ],
             },
           ],
+          validation: (Rule) =>
+            Rule.required()
+              .min(1)
+              .error("At least one navigation item is required."),
         }),
         defineField({
           name: "copyrightText",
           title: "Copyright Text",
           type: "string",
+          validation: (Rule) =>
+            Rule.required().error("Copyright text is required."),
         }),
       ],
     }),

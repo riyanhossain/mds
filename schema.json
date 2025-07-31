@@ -560,7 +560,7 @@
                   }
                 }
               },
-              "optional": true
+              "optional": false
             },
             "navigation": {
               "type": "objectAttribute",
@@ -597,7 +597,7 @@
                   }
                 }
               },
-              "optional": true
+              "optional": false
             }
           }
         },
@@ -675,7 +675,7 @@
                   }
                 }
               },
-              "optional": true
+              "optional": false
             },
             "navigation": {
               "type": "objectAttribute",
@@ -712,14 +712,14 @@
                   }
                 }
               },
-              "optional": true
+              "optional": false
             },
             "copyrightText": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"
               },
-              "optional": true
+              "optional": false
             }
           }
         },
