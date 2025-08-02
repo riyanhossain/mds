@@ -2,15 +2,7 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - staging
-      - tests
   pull_request:
-    branches:
-      - main
-      - staging
-      - tests
 
 jobs:
   test:
