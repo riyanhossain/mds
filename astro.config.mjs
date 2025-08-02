@@ -7,25 +7,37 @@ import { loadEnv } from "vite";
 
 import vercel from "@astrojs/vercel";
 
-const env = loadEnv(process.env.NODE_ENV || "development", process.cwd(), "");
+// Load environment variables - prioritize process.env for CI
+const getEnvVar = (key) => {
+  const value = process.env[key];
+  if (value) {
+    console.log(`✅ Found ${key}:`, value);
+    return value;
+  }
 
-// Debug environment variables
-console.log("🔍 Debug - NODE_ENV:", process.env.NODE_ENV);
-console.log(
-  "🔍 Debug - process.env.PUBLIC_SANITY_PROJECT_ID:",
-  process.env.PUBLIC_SANITY_PROJECT_ID
-);
-console.log(
-  "🔍 Debug - env.PUBLIC_SANITY_PROJECT_ID:",
-  env.PUBLIC_SANITY_PROJECT_ID
-);
+  // Try loadEnv as fallback for local development
+  const env = loadEnv(process.env.NODE_ENV || "development", process.cwd(), "");
+  const fallbackValue = env[key];
+  if (fallbackValue) {
+    console.log(`⚡ Fallback ${key}:`, fallbackValue);
+    return fallbackValue;
+  }
 
-const projectId =
-  process.env.PUBLIC_SANITY_PROJECT_ID || env.PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.PUBLIC_SANITY_DATASET || env.PUBLIC_SANITY_DATASET;
+  console.error(`❌ Missing ${key} - check your environment variables!`);
+  return undefined;
+};
 
-console.log("🔍 Debug - Final projectId:", projectId);
-console.log("🔍 Debug - Final dataset:", dataset);
+const projectId = getEnvVar("PUBLIC_SANITY_PROJECT_ID");
+const dataset = getEnvVar("PUBLIC_SANITY_DATASET");
+
+console.log("🚀 Final config - projectId:", projectId);
+console.log("🚀 Final config - dataset:", dataset);
+
+if (!projectId || !dataset) {
+  throw new Error(
+    "Missing required Sanity environment variables. Please set PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET"
+  );
+}
 
 export default defineConfig({
   integrations: [
