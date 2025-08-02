@@ -7,15 +7,14 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate:types": "npx sanity schema extract --enforce-required-fields && npx sanity typegen generate",
-    "test:visual": "playwright test",
-    "test:visual:lambdatest": "npx playwright test --config=playwright.lambdatest.config.ts",
-    "test:visual:local": "./scripts/visual-test-local.sh",
-    "smartui:capture": "node scripts/smartui-capture.js"
+    "generate:types": "npx sanity schema extract --enforce-required-fields && npx sanity typegen generate"
   },
   "devDependencies": {
     "@lambdatest/smartui-cli": "^4.1.19",
-    "@playwright/test": "^1.48.0"
+    "@percy/cli": "^1.31.1",
+    "@percy/cypress": "^3.1.6",
+    "@playwright/test": "^1.48.0",
+    "expect": "^30.0.5"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
@@ -29,6 +28,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "astro": "^5.12.4",
+    "dotenv": "^17.2.1",
     "playwright": "^1.54.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
