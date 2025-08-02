@@ -24,21 +24,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-
-  env: {
-    schema: {
-      PUBLIC_SANITY_PROJECT_ID: envField.string({
-        context: "client",
-        access: "public",
-        optional: false,
-      }),
-      PUBLIC_SANITY_DATASET: envField.string({
-        context: "client",
-        access: "public",
-        optional: false,
-      }),
-    },
-  },
   output: "server",
   adapter: vercel(),
 });
