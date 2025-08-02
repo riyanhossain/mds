@@ -7,6 +7,6 @@ describe("Visual regression tests", function () {
     cy.get("body").should("be.visible");
 
     // Take a snapshot for visual diffing
-    cy.percySnapshot("Homepage");
+    cy.percySnapshot("Homepage", { widths: [360, 768, 1440] });
   });
 });
