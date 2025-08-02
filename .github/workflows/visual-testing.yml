@@ -1,0 +1,22 @@
+name: Visual Regression Testing
+
+on: [push, pull_request]
+
+jobs:
+  visual-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: npm install
+      - name: Set LambdaTest Credentials
+        env:
+          LT_USERNAME: ${{ secrets.LT_USERNAME }}
+          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+        run: echo "LambdaTest credentials set"
+      - name: Run SmartUI Visual Tests
+        run: npx smartui exec node your-test-file.js
