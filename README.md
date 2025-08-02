@@ -32,14 +32,35 @@ To learn more about the folder structure of an Astro project, refer to [our guid
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+| Command                     | Action                                           |
+| :-------------------------- | :----------------------------------------------- |
+| `npm install`               | Installs dependencies                            |
+| `npm run dev`               | Starts local dev server at `localhost:4321`      |
+| `npm run build`             | Build your production site to `./dist/`          |
+| `npm run preview`           | Preview your build locally, before deploying     |
+| `npm run astro ...`         | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help`   | Get help using the Astro CLI                     |
+| `npm run test:visual`       | Run visual regression tests with Playwright      |
+| `npm run test:visual:local` | Run visual tests locally with LambdaTest         |
+
+## 🎨 Visual Testing
+
+This project includes visual regression testing with LambdaTest SmartUI. Tests automatically run when pushing to the `staging` branch or creating pull requests.
+
+### Setup
+
+1. Add LambdaTest credentials to GitHub Secrets:
+   - `LT_USERNAME`
+   - `LT_ACCESS_KEY`
+
+2. For local testing:
+   ```bash
+   export LT_USERNAME="your_username"
+   export LT_ACCESS_KEY="your_access_key"
+   npm run test:visual:local
+   ```
+
+See [Visual Testing Documentation](./docs/VISUAL_TESTING.md) for detailed setup and usage instructions.
 
 ## 👀 Want to learn more?
 

@@ -7,7 +7,16 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate:types": "npx sanity schema extract --enforce-required-fields && npx sanity typegen generate"
+    "generate:types": "npx sanity schema extract --enforce-required-fields && npx sanity typegen generate",
+    "test:visual": "playwright test",
+    "test:visual:lambdatest": "npx playwright test --config=playwright.lambdatest.config.ts",
+    "smartui:capture": "npx smartui capture",
+    "smartui:compare": "npx smartui --compare",
+    "test:visual:local": "./scripts/visual-test-local.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@lambdatest/smartui-cli": "^4.0.15"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
