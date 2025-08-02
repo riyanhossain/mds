@@ -1,11 +1,7 @@
 import { createClient } from "@sanity/client";
-import {
-  PUBLIC_SANITY_PROJECT_ID,
-  PUBLIC_SANITY_DATASET,
-} from "astro:env/client";
 
 export const client = createClient({
-  projectId: PUBLIC_SANITY_PROJECT_ID,
-  dataset: PUBLIC_SANITY_DATASET,
-  useCdn: true,
+  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
+  dataset: import.meta.env.PUBLIC_SANITY_DATASET,
+  useCdn: false,
 });

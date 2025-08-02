@@ -7,13 +7,13 @@ import { loadEnv } from "vite";
 
 import vercel from "@astrojs/vercel";
 
-const env = loadEnv(`${process.env.NODE_ENV}`, process.cwd(), "");
+const env = loadEnv(process.env.NODE_ENV || "development", process.cwd(), "");
 
 export default defineConfig({
   integrations: [
     sanity({
-      projectId: env.PUBLIC_SANITY_PROJECT_ID,
-      dataset: env.PUBLIC_SANITY_DATASET,
+      projectId: env.PUBLIC_SANITY_PROJECT_ID ?? "dzwl1s75",
+      dataset: env.PUBLIC_SANITY_DATASET ?? "production",
       useCdn: false,
       studioBasePath: "/studio",
     }),
@@ -22,21 +22,6 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
-  },
-
-  env: {
-    schema: {
-      PUBLIC_SANITY_PROJECT_ID: envField.string({
-        context: "client",
-        access: "public",
-        optional: true,
-      }),
-      PUBLIC_SANITY_DATASET: envField.string({
-        context: "client",
-        access: "public",
-        optional: true,
-      }),
-    },
   },
   output: "server",
   adapter: vercel(),
