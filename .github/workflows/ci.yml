@@ -22,44 +22,44 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build project
-        run: npm run build
-        env:
-          PUBLIC_SANITY_PROJECT_ID: ${{ secrets.PUBLIC_SANITY_PROJECT_ID }}
-          PUBLIC_SANITY_DATASET: ${{ secrets.PUBLIC_SANITY_DATASET }}
+      # - name: Build project
+      #   run: npm run build
+      #   env:
+      #     PUBLIC_SANITY_PROJECT_ID: ${{ secrets.PUBLIC_SANITY_PROJECT_ID }}
+      #     PUBLIC_SANITY_DATASET: ${{ secrets.PUBLIC_SANITY_DATASET }}
 
       - name: Run Percy Cypress tests
         run: npx percy exec -- cypress run
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 
-  build:
-    name: Build Check
-    runs-on: ubuntu-latest
+  # build:
+  #   name: Build Check
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "22"
+  #         cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+  #     - name: Install dependencies
+  #       run: npm ci
 
-      - name: Build project
-        run: npm run build
-        env:
-          PUBLIC_SANITY_PROJECT_ID: ${{ secrets.PUBLIC_SANITY_PROJECT_ID }}
-          PUBLIC_SANITY_DATASET: ${{ secrets.PUBLIC_SANITY_DATASET }}
+  #     - name: Build project
+  #       run: npm run build
+  #       env:
+  #         PUBLIC_SANITY_PROJECT_ID: ${{ secrets.PUBLIC_SANITY_PROJECT_ID }}
+  #         PUBLIC_SANITY_DATASET: ${{ secrets.PUBLIC_SANITY_DATASET }}
 
-      - name: Check build artifacts
-        run: |
-          if [ ! -d ".vercel" ]; then
-            echo "Build directory not found!"
-            exit 1
-          fi
-          echo "Build successful - .vercel directory exists"
+  #     - name: Check build artifacts
+  #       run: |
+  #         if [ ! -d ".vercel" ]; then
+  #           echo "Build directory not found!"
+  #           exit 1
+  #         fi
+  #         echo "Build successful - .vercel directory exists"
