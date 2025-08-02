@@ -7,13 +7,31 @@ import { loadEnv } from "vite";
 
 import vercel from "@astrojs/vercel";
 
-const env = loadEnv(`${process.env.NODE_ENV}`, process.cwd(), "");
+const env = loadEnv(process.env.NODE_ENV || "development", process.cwd(), "");
+
+// Debug environment variables
+console.log("🔍 Debug - NODE_ENV:", process.env.NODE_ENV);
+console.log(
+  "🔍 Debug - process.env.PUBLIC_SANITY_PROJECT_ID:",
+  process.env.PUBLIC_SANITY_PROJECT_ID
+);
+console.log(
+  "🔍 Debug - env.PUBLIC_SANITY_PROJECT_ID:",
+  env.PUBLIC_SANITY_PROJECT_ID
+);
+
+const projectId =
+  process.env.PUBLIC_SANITY_PROJECT_ID || env.PUBLIC_SANITY_PROJECT_ID;
+const dataset = process.env.PUBLIC_SANITY_DATASET || env.PUBLIC_SANITY_DATASET;
+
+console.log("🔍 Debug - Final projectId:", projectId);
+console.log("🔍 Debug - Final dataset:", dataset);
 
 export default defineConfig({
   integrations: [
     sanity({
-      projectId: env.PUBLIC_SANITY_PROJECT_ID,
-      dataset: env.PUBLIC_SANITY_DATASET,
+      projectId,
+      dataset,
       useCdn: false,
       studioBasePath: "/studio",
     }),
