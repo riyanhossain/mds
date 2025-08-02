@@ -10,17 +10,17 @@
     "generate:types": "npx sanity schema extract --enforce-required-fields && npx sanity typegen generate",
     "test:visual": "playwright test",
     "test:visual:lambdatest": "npx playwright test --config=playwright.lambdatest.config.ts",
-    "smartui:capture": "npx smartui capture",
-    "smartui:compare": "npx smartui --compare",
-    "test:visual:local": "./scripts/visual-test-local.sh"
+    "test:visual:local": "./scripts/visual-test-local.sh",
+    "smartui:capture": "node scripts/smartui-capture.js"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.0",
-    "@lambdatest/smartui-cli": "^4.0.15"
+    "@lambdatest/smartui-cli": "^4.1.19",
+    "@playwright/test": "^1.48.0"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
     "@astrojs/vercel": "^8.2.3",
+    "@lambdatest/playwright-driver": "^1.0.6",
     "@sanity/astro": "^3.2.10",
     "@sanity/client": "^7.8.1",
     "@sanity/dashboard": "^4.1.4",
@@ -29,6 +29,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "astro": "^5.12.4",
+    "playwright": "^1.54.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-is": "^19.1.1",

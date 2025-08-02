@@ -19,6 +19,14 @@ This project is configured for visual regression testing using Playwright and La
 3. Add these secrets:
    - `LT_USERNAME`: Your LambdaTest username
    - `LT_ACCESS_KEY`: Your LambdaTest access key
+   - `SMARTUI_PROJECT_TOKEN`: Your SmartUI project token
+
+### Getting SmartUI Project Token
+
+1. Go to [LambdaTest SmartUI](https://smartui.lambdatest.com)
+2. Create a new project or select an existing one
+3. Copy the project token from the project settings
+4. Add it to your GitHub secrets as `SMARTUI_PROJECT_TOKEN`
 
 ### Local Setup
 
@@ -33,6 +41,7 @@ This project is configured for visual regression testing using Playwright and La
    ```bash
    export LT_USERNAME="your_username"
    export LT_ACCESS_KEY="your_access_key"
+   export SMARTUI_PROJECT_TOKEN="your_project_token"
    ```
 
 3. Run visual tests locally:

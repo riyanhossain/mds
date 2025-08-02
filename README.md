@@ -52,11 +52,13 @@ This project includes visual regression testing with LambdaTest SmartUI. Tests a
 1. Add LambdaTest credentials to GitHub Secrets:
    - `LT_USERNAME`
    - `LT_ACCESS_KEY`
+   - `SMARTUI_PROJECT_TOKEN`
 
 2. For local testing:
    ```bash
    export LT_USERNAME="your_username"
    export LT_ACCESS_KEY="your_access_key"
+   export SMARTUI_PROJECT_TOKEN="your_project_token"
    npm run test:visual:local
    ```
 

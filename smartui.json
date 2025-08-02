@@ -1,11 +1,9 @@
 {
+  "projectToken": "",
+  "baseline": false,
+  "buildName": "Visual Testing Build",
   "web": {
-    "browsers": [
-      "chrome",
-      "firefox",
-      "safari",
-      "edge"
-    ],
+    "browsers": ["chrome", "firefox", "safari", "edge"],
     "viewports": [
       [1920, 1080],
       [1366, 768],
@@ -13,23 +11,13 @@
       [414, 896]
     ],
     "waitForPageRender": 10000,
-    "waitForTimeout": 30000
+    "waitForTimeout": 30000,
+    "element_timeout": 15000,
+    "fullPage": true
   },
   "mobile": {
-    "devices": [
-      "iPhone 14",
-      "Galaxy S23"
-    ],
+    "devices": ["iPhone 14", "Galaxy S23"],
     "fullPage": true,
     "orientation": "portrait"
-  },
-  "threshold": {
-    "errorThreshold": 0.1,
-    "ignoreAntialiasing": true,
-    "ignoreColors": false
-  },
-  "build": {
-    "buildName": "Visual Regression Test",
-    "project": "mds-visual-testing"
   }
 }

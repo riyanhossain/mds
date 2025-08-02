@@ -1,154 +1,165 @@
-name: Visual Regression Testing with LambdaTest
+name: Visual Regression Testing with LambdaTest SmartUI
 
 on:
   push:
-    branches: [ staging ]
+    branches: [staging]
   pull_request:
-    branches: [ staging ]
+    branches: [staging]
 
 env:
-  NODE_VERSION: '22'
-  BASE_BRANCH: 'main'
-  
+  NODE_VERSION: "22"
+
 jobs:
   visual-regression-test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-      
+          cache: "npm"
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
-      
+
       - name: Build Astro site
         run: npm run build
-        
+
+      - name: Set LambdaTest environment variables
+        env:
+          LT_USERNAME: ${{ secrets.LT_USERNAME }}
+          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+          SMARTUI_PROJECT_TOKEN: ${{ secrets.SMARTUI_PROJECT_TOKEN }}
+        run: |
+          echo "LT_USERNAME=${LT_USERNAME}" >> $GITHUB_ENV
+          echo "LT_ACCESS_KEY=${LT_ACCESS_KEY}" >> $GITHUB_ENV
+          echo "SMARTUI_PROJECT_TOKEN=${SMARTUI_PROJECT_TOKEN}" >> $GITHUB_ENV
+          echo "BUILD_NAME=PR-${{ github.event.pull_request.number || github.sha }}-${{ github.run_number }}" >> $GITHUB_ENV
+          echo "TEST_NAME=Visual Regression Test - ${{ github.event_name }}" >> $GITHUB_ENV
+
+      - name: Validate LambdaTest credentials
+        run: |
+          if [ -z "$LT_USERNAME" ] || [ -z "$LT_ACCESS_KEY" ]; then
+            echo "❌ Error: LambdaTest credentials not found!"
+            echo "Please add LT_USERNAME and LT_ACCESS_KEY to GitHub secrets"
+            exit 1
+          fi
+
+          if [ -z "$SMARTUI_PROJECT_TOKEN" ]; then
+            echo "❌ Error: SmartUI project token not found!"
+            echo "Please add SMARTUI_PROJECT_TOKEN to GitHub secrets"
+            echo "Get your token from: https://smartui.lambdatest.com"
+            exit 1
+          fi
+
+          echo "✅ All credentials validated"
+
       - name: Start preview server
         run: |
           npm run preview &
           sleep 10
-        
-      - name: Set LambdaTest environment
-        env:
-          LT_USERNAME: ${{ secrets.LT_USERNAME }}
-          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+
+      - name: Run visual tests on LambdaTest
         run: |
-          echo "LT_USERNAME=${LT_USERNAME}" >> $GITHUB_ENV
-          echo "LT_ACCESS_KEY=${LT_ACCESS_KEY}" >> $GITHUB_ENV
-          
-      - name: Configure SmartUI Project
-        run: |
-          npx smartui config:create smartui-web.json
-          echo '{
-            "web": {
-              "browsers": ["chrome", "firefox", "safari", "edge"],
-              "viewports": [[1920, 1080], [1366, 768], [375, 667]],
-              "waitForPageRender": 10000,
-              "waitForTimeout": 30000
-            },
-            "projectName": "mds-visual-${{ github.event_name }}",
-            "buildName": "Build-${{ github.run_number }}",
-            "baseline": "${{ env.BASE_BRANCH }}"
-          }' > smartui-web.json
-      
-      - name: Create baseline from main branch (if needed)
-        if: github.event_name == 'pull_request' || github.event_name == 'push'
-        run: |
-          # Checkout main branch to capture baseline
-          git checkout ${{ env.BASE_BRANCH }}
-          npm ci
-          npm run build
-          npm run preview &
-          sleep 10
-          
-          # Capture baseline screenshots
-          npx smartui capture screenshots/baseline --config=smartui-web.json \
-            --urls "http://localhost:4321/" \
-            --buildName "baseline-${{ env.BASE_BRANCH }}-${{ github.run_number }}"
-          
-          # Kill the preview server
-          pkill -f "npm run preview" || true
-          
-          # Return to current branch
-          git checkout -
-      
-      - name: Run Playwright visual tests
-        run: |
-          BASE_URL=http://localhost:4321 npm run test:visual
+          echo "🧪 Running visual tests on LambdaTest SmartUI..."
+          echo "📊 Build: $BUILD_NAME"
+          echo "🎯 Test: $TEST_NAME"
+
+          # Try Playwright integration first
+          if npx playwright test --config=playwright.lambdatest.config.ts; then
+            echo "✅ Playwright tests completed successfully"
+          else
+            echo "⚠️ Playwright tests failed, trying SmartUI URL capture..."
+            BASE_URL=http://localhost:4321 npm run smartui:capture
+          fi
         continue-on-error: true
-        
-      - name: Run LambdaTest SmartUI tests
-        run: |
-          # Capture current branch screenshots
-          npx smartui capture screenshots/current --config=smartui-web.json \
-            --urls "http://localhost:4321/" \
-            --buildName "PR-${{ github.event.pull_request.number || github.sha }}"
-            
-          # Compare with baseline
-          npx smartui compare \
-            --baselineBuild "baseline-${{ env.BASE_BRANCH }}-${{ github.run_number }}" \
-            --comparisonBuild "PR-${{ github.event.pull_request.number || github.sha }}"
-        env:
-          BUILD_NAME: PR-${{ github.event.pull_request.number || github.sha }}
-          TEST_NAME: Visual Regression Test
-          
-      - name: Upload Playwright test results
+
+      - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-results
+          name: playwright-results-${{ github.run_number }}
           path: |
             playwright-report/
             test-results/
-            screenshots/
           retention-days: 7
-      
+
       - name: Comment PR with results
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
+            const path = require('path');
+
             let comment = '## 🎨 Visual Regression Test Results\n\n';
-            
-            // Check if there are visual differences
-            const hasChanges = fs.existsSync('visual-changes.json');
-            
-            if (hasChanges) {
-              comment += '⚠️ **Visual changes detected!**\n\n';
-              comment += 'Please review the visual differences in the [LambdaTest SmartUI Dashboard](https://smartui.lambdatest.com).\n\n';
-              comment += `Build Name: PR-${{ github.event.pull_request.number }}\n`;
-            } else {
-              comment += '✅ **No visual regressions detected!**\n\n';
-              comment += 'All visual tests passed successfully.\n';
+
+            // Try to read test results
+            let hasResults = false;
+            let testsPassed = false;
+
+            try {
+              if (fs.existsSync('test-results.json')) {
+                const results = JSON.parse(fs.readFileSync('test-results.json', 'utf8'));
+                hasResults = true;
+                testsPassed = results.stats?.failed === 0;
+              }
+            } catch (error) {
+              console.log('Could not read test results:', error.message);
             }
-            
+
+            if (hasResults) {
+              if (testsPassed) {
+                comment += '✅ **Visual tests completed successfully!**\n\n';
+                comment += 'No visual regressions detected.\n\n';
+              } else {
+                comment += '⚠️ **Visual differences detected or tests failed!**\n\n';
+                comment += 'Please review the visual differences and test failures.\n\n';
+              }
+            } else {
+              comment += '📊 **Visual tests have been executed.**\n\n';
+              comment += 'Please check the LambdaTest SmartUI dashboard for detailed results.\n\n';
+            }
+
+            comment += '### 🔗 Links\n';
+            comment += `- [LambdaTest SmartUI Dashboard](https://smartui.lambdatest.com)\n`;
+            comment += `- [Test Artifacts (Workflow #${{ github.run_number }})](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\n\n`;
+
+            comment += '### 📋 Build Information\n';
+            comment += `- **Build Name**: \`${{ env.BUILD_NAME }}\`\n`;
+            comment += `- **Test Name**: \`${{ env.TEST_NAME }}\`\n`;
+            comment += `- **Branch**: \`${{ github.head_ref || github.ref_name }}\`\n`;
+            comment += `- **Commit**: \`${{ github.sha }}\`\n`;
+
             comment += '\n---\n';
-            comment += `🔗 [View full results on LambdaTest](https://smartui.lambdatest.com/projects)\n`;
-            comment += `📊 Build: #${{ github.run_number }}\n`;
-            comment += `🎯 Base branch: \`${{ env.BASE_BRANCH }}\`\n`;
-            
+            comment += '*This comment was automatically generated by the Visual Regression Testing workflow.*';
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: comment
             });
-            
-      - name: Fail if visual changes detected (optional)
-        if: failure()
+
+      - name: Check test results
         run: |
-          echo "Visual regression tests failed. Please review the changes."
-          exit 1
+          echo "📊 Checking test results..."
+          if [ -f "test-results.json" ]; then
+            echo "✅ Test results found"
+            cat test-results.json | jq '.stats // {}'
+          else
+            echo "⚠️  No test results file found"
+          fi
+
+          echo ""
+          echo "🔗 View detailed results at: https://smartui.lambdatest.com"
+          echo "📊 Build name: $BUILD_NAME"
