@@ -4,16 +4,17 @@ type Props = ContactSection;
 export default function ContactSection({ sectionId, heading, address }: Props) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
+  const [isSending, setIsSending] = useState(false);
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsSending(true);
     const form = e.currentTarget;
     const formData = new FormData(form);
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
     const telefon = formData.get("telefon") as string;
     const nachricht = formData.get("nachricht") as string;
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -23,20 +24,16 @@ export default function ContactSection({ sectionId, heading, address }: Props) {
       if (res.ok) {
         setSuccess(true);
         setError(false);
-        form.reset();
-        if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(() => setSuccess(false), 5000);
+        setIsSending(false);
       } else {
         setError(true);
         setSuccess(false);
-        if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(() => setError(false), 5000);
+        setIsSending(false);
       }
     } catch (err) {
       setError(true);
       setSuccess(false);
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => setError(false), 5000);
+      setIsSending(false);
     }
   }
   return (
@@ -87,15 +84,15 @@ export default function ContactSection({ sectionId, heading, address }: Props) {
           </div>
           <div className="flex items-center gap-4 flex-wrap">
             <button type="submit" className="primary-button">
-              Senden
+              {isSending ? "Senden..." : "Senden"}
             </button>
             {success && (
-              <div className="mt-4 text-green-600 text-center font-semibold">
+              <div className="text-green-600 text-center font-semibold">
                 Nachricht gesendet!
               </div>
             )}
             {error && (
-              <div className="mt-4 text-red-600 text-center font-semibold">
+              <div className="text-red-600 text-center font-semibold">
                 Fehler beim Senden.
               </div>
             )}
